@@ -9,11 +9,12 @@ public class PlayerMovement : MonoBehaviour
     public GameObject character;
     private Rigidbody2D characterBody;
     private float ScreenWidth;
+    private float ScreenHeight;
     void Start()
     {
         ScreenWidth = Screen.width;
         characterBody = character.GetComponent<Rigidbody2D>();
-
+        ScreenHeight = Screen.height;
     }
 
     // Update is called once per frame
@@ -33,19 +34,36 @@ public class PlayerMovement : MonoBehaviour
                 //move left
                 RunCharacter(-1.0f);
             }
+            if (Input.GetTouch(i).position.y > ScreenHeight * 0.75f)
+            {
+                //move right
+                CharacterVertical(0.0f, 1.0f);
+            }
+            if (Input.GetTouch(i).position.y < ScreenHeight * 0.25f)
+            {
+                //move left
+                CharacterVertical(0.0f, -1.0f);
+            }
             ++i;
         }
     }
-    void FixedUpdate()
+    private void FixedUpdate()
     {
 #if UNITY_EDITOR
         RunCharacter(Input.GetAxis("Horizontal"));
+        CharacterVertical(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 #endif
     }
+
     private void RunCharacter(float horizontalInput)
     {
-        //move player X axis
+        // Move player along the X axis
         characterBody.AddForce(new Vector2(horizontalInput * moveSpeed * Time.deltaTime, 0));
     }
 
+    private void CharacterVertical(float horizontalInput, float verticalInput)
+    {
+        // Move player along the X and Y axes
+        characterBody.AddForce(new Vector2(horizontalInput * moveSpeed * Time.deltaTime, verticalInput * moveSpeed * Time.deltaTime));
+    }
 }
