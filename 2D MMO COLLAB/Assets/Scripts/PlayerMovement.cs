@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void RunCharacter(float horizontalInput)
     {
-        //move player
+        //move player X axis
         characterBody.AddForce(new Vector2(horizontalInput * moveSpeed * Time.deltaTime, 0));
     }
 
