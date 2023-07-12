@@ -23,8 +23,9 @@ public class TopDownController : MonoBehaviour
     void Update()
     {
 
-        movement.x = joystick.Horizontal;
-        movement.y = joystick.Vertical;
+        movement.x = Mathf.Round(joystick.Horizontal);
+        movement.y = Mathf.Round(joystick.Vertical);
+
 
         animator.SetFloat("Horizontal", movement.x);
         animator.SetFloat("Vertical", movement.y);
